@@ -8,6 +8,9 @@ import { InventarioModule } from './inventario/inventario.module';
 import { NotificacionesModule } from './notificaciones/notificaciones.module';
 import { CitasModule } from './citas/citas.module';
 import { MedicosModule } from './medicos/medicos.module';
+import { HistorialClinicoModule } from './historial_clinico/historial_clinico.module';
+import { FacturasModule } from './facturas/facturas.module';
+import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
 
 @Module({
   imports: [
@@ -41,7 +44,9 @@ import { MedicosModule } from './medicos/medicos.module';
     NotificacionesModule,
     CitasModule,
     MedicosModule,
-    
+    HistorialClinicoModule,
+    FacturasModule,
+    DetalleFacturaModule
 
   ],
   controllers: [],
