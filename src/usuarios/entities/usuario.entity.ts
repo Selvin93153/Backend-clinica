@@ -1,6 +1,8 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
 import { Rol } from 'src/roles/entities/roles.entity';
 import { Paciente } from '../../pacientes/entities/paciente.entity';
+import { Notificacion } from '../../notificaciones/entities/notificacion.entity';
+
 
 @Entity('usuarios')
 export class Usuario {
@@ -24,4 +26,8 @@ export class Usuario {
 
   @OneToMany(() => Paciente, (paciente) => paciente.usuario)
   pacientes: Paciente[];
+
+  @OneToMany(() => Notificacion, (notificacion) => notificacion.usuario)
+notificaciones: Notificacion[];
+
 }

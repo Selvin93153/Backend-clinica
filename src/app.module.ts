@@ -5,6 +5,9 @@ import { RolesModule } from './roles/roles.module'; // Importa el RolesModule
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { PacientesModule } from './pacientes/pacientes.module';
 import { InventarioModule } from './inventario/inventario.module';
+import { NotificacionesModule } from './notificaciones/notificaciones.module';
+import { CitasModule } from './citas/citas.module';
+import { MedicosModule } from './medicos/medicos.module';
 
 @Module({
   imports: [
@@ -35,6 +38,10 @@ import { InventarioModule } from './inventario/inventario.module';
     UsuariosModule,
     PacientesModule,
     InventarioModule,
+    NotificacionesModule,
+    CitasModule,
+    MedicosModule,
+    
 
   ],
   controllers: [],
