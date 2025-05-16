@@ -20,8 +20,13 @@ export class CitasService {
   ) {}
 
   async create(createCitaDto: CreateCitaDto): Promise<Cita> {
-    const paciente = await this.pacienteRepository.findOneBy({ id_paciente: createCitaDto.id_paciente });
-    const medico = await this.medicoRepository.findOneBy({ id_medico: createCitaDto.id_medico });
+    const paciente = await this.pacienteRepository.findOne({
+      where: { id_paciente: createCitaDto.id_paciente },
+    });
+
+    const medico = await this.medicoRepository.findOne({
+      where: { id_medico: createCitaDto.id_medico },
+    });
 
     if (!paciente || !medico) {
       throw new NotFoundException('Paciente o médico no encontrado');
@@ -38,15 +43,36 @@ export class CitasService {
     return this.citaRepository.save(cita);
   }
 
-  findAll(): Promise<Cita[]> {
-    return this.citaRepository.find();
+  async findAll(): Promise<Cita[]> {
+    return this.citaRepository.find({
+      relations: {
+        paciente: {
+          usuario: true, // 👈 Relación agregada para traer datos del usuario del paciente
+        },
+        medico: {
+          usuario: true, // Ya funcional, se conserva
+        },
+      },
+    });
   }
 
   async findOne(id: number): Promise<Cita> {
-    const cita = await this.citaRepository.findOneBy({ id_cita: id });
+    const cita = await this.citaRepository.findOne({
+      where: { id_cita: id },
+      relations: {
+        paciente: {
+          usuario: true,
+        },
+        medico: {
+          usuario: true,
+        },
+      },
+    });
+
     if (!cita) {
       throw new NotFoundException(`Cita con id ${id} no encontrada`);
     }
+
     return cita;
   }
 
