@@ -6,9 +6,9 @@ export class HistorialClinico {
   @PrimaryGeneratedColumn()
   id_historial: number;
 
-  @ManyToOne(() => Paciente, (paciente) => paciente.historiales, { eager: true })
-  @JoinColumn({ name: 'id_paciente' })
-  paciente: Paciente;
+@ManyToOne(() => Paciente, paciente => paciente.historiales)
+@JoinColumn({ name: 'id_paciente' })
+paciente: Paciente;
 
   @Column({ type: 'text' })
   diagnostico: string;
