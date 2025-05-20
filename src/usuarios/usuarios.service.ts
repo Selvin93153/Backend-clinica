@@ -4,11 +4,13 @@ import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { AuthController}  from  '../auth/auth.controller';
 import * as bcrypt from 'bcrypt';
 import { Rol } from '../roles/entities/roles.entity';
 
 @Injectable()
 export class UsuariosService {
+
   constructor(
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
@@ -58,4 +60,12 @@ export class UsuariosService {
     const user = await this.findOne(id);
     await this.usuarioRepository.remove(user);
   }
-}
+
+
+// src/usuarios/usuarios.service.ts
+
+async findByCorreo(correo: string): Promise<Usuario | null> {
+  return this.usuarioRepository.findOne({
+    where: { correo },
+  });
+}}

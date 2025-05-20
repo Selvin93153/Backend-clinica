@@ -10,5 +10,6 @@ import { Paciente } from 'src/pacientes/entities/paciente.entity';
   imports: [TypeOrmModule.forFeature([Usuario, Rol,Paciente])],
   controllers: [UsuariosController],
   providers: [UsuariosService],
+   exports: [UsuariosService],
 })
 export class UsuariosModule {}

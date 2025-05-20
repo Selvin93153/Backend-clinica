@@ -11,6 +11,7 @@ import { MedicosModule } from './medicos/medicos.module';
 import { HistorialClinicoModule } from './historial_clinico/historial_clinico.module';
 import { FacturasModule } from './facturas/facturas.module';
 import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -46,7 +47,8 @@ import { DetalleFacturaModule } from './detalle_factura/detalle_factura.module';
     MedicosModule,
     HistorialClinicoModule,
     FacturasModule,
-    DetalleFacturaModule
+    DetalleFacturaModule,
+    AuthModule,
 
   ],
   controllers: [],
