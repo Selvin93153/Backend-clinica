@@ -67,5 +67,6 @@ export class UsuariosService {
 async findByCorreo(correo: string): Promise<Usuario | null> {
   return this.usuarioRepository.findOne({
     where: { correo },
+    relations: ['rol'],
   });
 }}

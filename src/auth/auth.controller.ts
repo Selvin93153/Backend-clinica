@@ -26,6 +26,10 @@ export class AuthController {
         nombres: user.nombres,
         apellidos: user.apellidos,
         correo: user.correo,
+        rol: {
+        id_rol: user.rol.id_rol,
+        nombre: user.rol.nombre,
+      },
        
       }
     };
