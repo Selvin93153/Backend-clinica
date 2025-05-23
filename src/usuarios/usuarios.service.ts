@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { AuthController}  from  '../auth/auth.controller';
 import * as bcrypt from 'bcrypt';
 import { Rol } from '../roles/entities/roles.entity';
 
@@ -35,12 +34,16 @@ export class UsuariosService {
     return this.usuarioRepository.save(nuevoUsuario);
   }
 
+  // ✅ Agregado: incluir el rol cuando se obtienen todos los usuarios
   findAll(): Promise<Usuario[]> {
-    return this.usuarioRepository.find();
+    return this.usuarioRepository.find({ relations: ['rol'] });
   }
 
   async findOne(id: number): Promise<Usuario> {
-    const user = await this.usuarioRepository.findOne({ where: { id_usuario: id } });
+    const user = await this.usuarioRepository.findOne({
+      where: { id_usuario: id },
+      relations: ['rol'],
+    });
     if (!user) throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
     return user;
   }
@@ -61,12 +64,20 @@ export class UsuariosService {
     await this.usuarioRepository.remove(user);
   }
 
+  // ✅ Agregado: buscar usuarios por ID de rol
+  async findByRol(idRol: number): Promise<Usuario[]> {
+    return this.usuarioRepository.find({
+      where: {
+        rol: { id_rol: idRol },
+      },
+      relations: ['rol'],
+    });
+  }
 
-// src/usuarios/usuarios.service.ts
-
-async findByCorreo(correo: string): Promise<Usuario | null> {
-  return this.usuarioRepository.findOne({
-    where: { correo },
-    relations: ['rol'],
-  });
-}}
+  async findByCorreo(correo: string): Promise<Usuario | null> {
+    return this.usuarioRepository.findOne({
+      where: { correo },
+      relations: ['rol'],
+    });
+  }
+}

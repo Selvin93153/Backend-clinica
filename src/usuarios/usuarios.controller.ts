@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -12,8 +12,12 @@ export class UsuariosController {
     return this.usuariosService.create(createUsuarioDto);
   }
 
+  // ✅ Este método ahora puede recibir un filtro opcional por `rol`
   @Get()
-  findAll() {
+  findAll(@Query('rol') rol: string) {
+    if (rol) {
+      return this.usuariosService.findByRol(Number(rol));
+    }
     return this.usuariosService.findAll();
   }
 
