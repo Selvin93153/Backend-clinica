@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Medico } from './entities/medico.entity';
 import { CreateMedicoDto } from './dto/create-medico.dto';
 import { Usuario } from '../usuarios/entities/usuario.entity';  // Importa la entidad Usuario
+import { UpdateMedicoDto } from './dto/update-medico.dto';
 
 @Injectable()
 export class MedicosService {
@@ -50,4 +51,34 @@ export class MedicosService {
       throw new NotFoundException(`Médico con id ${id} no encontrado`);
     }
   }
+
+
+
+  async update(id: number, updateMedicoDto: UpdateMedicoDto): Promise<Medico> {
+  const medico = await this.medicoRepository.findOneBy({ id_medico: id });
+
+  if (!medico) {
+    throw new NotFoundException(`Médico con id ${id} no encontrado`);
+  }
+
+  // Si el update incluye id_usuario, debes actualizar la relación usuario también
+  if (updateMedicoDto.id_usuario) {
+    const usuario = await this.usuarioRepository.findOneBy({ id_usuario: updateMedicoDto.id_usuario });
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    medico.usuario = usuario;
+  }
+
+  // Actualiza las otras propiedades si vienen en el DTO
+  if (updateMedicoDto.especialidad !== undefined) {
+    medico.especialidad = updateMedicoDto.especialidad;
+  }
+  if (updateMedicoDto.telefono !== undefined) {
+    medico.telefono = updateMedicoDto.telefono;
+  }
+
+  return this.medicoRepository.save(medico);
+}
+
 }

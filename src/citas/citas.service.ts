@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cita } from './entities/citas.entity';
@@ -30,6 +30,19 @@ export class CitasService {
 
     if (!paciente || !medico) {
       throw new NotFoundException('Paciente o médico no encontrado');
+    }
+
+     const citaExistente = await this.citaRepository.findOne({
+      where: {
+        fecha: createCitaDto.fecha,
+        hora: createCitaDto.hora,
+        medico: { id_medico: createCitaDto.id_medico },
+      },
+      relations: ['medico'],
+    });
+
+    if (citaExistente) {
+      throw new BadRequestException('No hay cupo para esa cita. Por favor elija otro horario o fecha.');
     }
 
     const cita = this.citaRepository.create({
