@@ -95,4 +95,18 @@ export class CitasService {
       throw new NotFoundException(`Cita con id ${id} no encontrada`);
     }
   }
+
+async update(id: number, nuevoEstado: string): Promise<Cita> {
+  const cita = await this.citaRepository.findOne({ where: { id_cita: id } });
+
+  if (!cita) {
+    throw new NotFoundException(`Cita con id ${id} no encontrada`);
+  }
+
+  cita.estado = nuevoEstado;
+
+  return this.citaRepository.save(cita);
+}
+
+
 }
